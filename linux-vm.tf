@@ -1,10 +1,10 @@
 
-resource "azurerm_resource_group" "main" {
+resource "azurerm_resource_group" "rg" {
   name     = var.resources
   location = var.location
 }
 
-resource "azurerm_virtual_network" "main" {
+resource "azurerm_virtual_network" "network" {
   name                = var.network
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.main.location
@@ -18,14 +18,14 @@ resource "azurerm_subnet" "internal" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-resource "azurerm_public_ip" "main" {
+resource "azurerm_public_ip" "pip" {
   name                = var.pip
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   allocation_method   = "Static"
 }
 
-resource "azurerm_network_interface" "main" {
+resource "azurerm_network_interface" "nic" {
   name                = var.nic
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
@@ -38,7 +38,7 @@ resource "azurerm_network_interface" "main" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "main" {
+resource "azurerm_linux_virtual_machine" "linux" {
   name                            = var.vm
   resource_group_name             = azurerm_resource_group.main.name
   location                        = azurerm_resource_group.main.location
